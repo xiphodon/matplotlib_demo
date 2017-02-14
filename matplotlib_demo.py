@@ -273,11 +273,17 @@ def demo_08():
     major_cats = ["Biology", "Computer Science", "Engineering", "Math and Statistics"]
     fig = plt.figure(figsize=(12,12))
 
+    # 调配颜色
+    cb_blue = (0/255, 147/255, 184/255)
+    cb_orange = (255/255, 128/255, 14/255)
+
+
     # 添加四个子图
     for i in range(4):
         ax = fig.add_subplot(2,2,i+1)
-        ax.plot(data["Year"], data[major_cats[i]], c="blue", label="Wonmen")
-        ax.plot(data["Year"], 100 - data[major_cats[i]], c="green", label="Men")
+        # linewidth=5表示线条宽度
+        ax.plot(data["Year"], data[major_cats[i]], c=cb_orange, label="Wonmen", linewidth=5)
+        ax.plot(data["Year"], 100 - data[major_cats[i]], c=cb_blue, label="Men", linewidth=5)
         # 去掉图标框
         for key,spine in ax.spines.items():
             spine.set_visible(False)
@@ -287,12 +293,13 @@ def demo_08():
         ax.legend(loc="best")
         # 去掉图表小刻度格
         ax.tick_params(bottom="off", top="off", left="off", right="off")
+        # 在图表中加文字说明
+        if i == 0:
+            # 在第一个子图中坐标位置处添加指定文字
+            ax.text(2005,70,"Women")
+            ax.text(2002,28,"Men")
 
     plt.show()
-
-
-
-
 
 
 
