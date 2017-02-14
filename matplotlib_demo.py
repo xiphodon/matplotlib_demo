@@ -59,6 +59,8 @@ def demo_02():
     ax2.plot(np.arange(10) * 3, np.arange(10))
     ax3.plot([2,1,3,4,5], [10,8,6,4,2])
 
+    ax1.set_ylim(0,10) # 在子图区域ax1中设置y轴刻度范围
+
     plt.show()
 
 
@@ -173,12 +175,73 @@ def demo_05():
     ax1.scatter(reviews["Fandango_Ratingvalue"], reviews["RT_user_norm"])
     ax1.set_xlabel("Fandango")
     ax1.set_ylabel("Rotten Tomatoes")
+    ax1.set_title("图1") # 子图标题
     # 绘制散点图
     ax2.scatter(reviews["RT_user_norm"], reviews["Fandango_Ratingvalue"])
     ax2.set_xlabel("Rotten Tomatoes")
     ax2.set_ylabel("Fandango")
+    ax2.set_title("图2") # 子图标题
 
     plt.show()
+
+
+def demo_06():
+    '''
+    绘制频率分布直方图
+    :return:
+    '''
+    # 加载数据
+    reviews = pd.read_csv("fandango_scores.csv")
+
+    cols = ["FILM", "RT_user_norm", "Metacritic_user_nom", "IMDB_norm", "Fandango_Ratingvalue"]
+    norm_reviews = reviews[cols]
+    print(norm_reviews.loc[0])
+
+    data_01 = norm_reviews["Fandango_Ratingvalue"].value_counts() # 对该列值出现次数进行统计
+    data_01 = data_01.sort_index() # 按照索引（电影评分）大小排序
+    print(data_01)
+
+    data_02 = norm_reviews["IMDB_norm"].value_counts()  # 对该列值出现次数进行统计
+    data_02 = data_02.sort_index()  # 按照索引（电影评分）大小排序
+    print(data_02)
+
+    fig, ax = plt.subplots()
+    # 绘制频率分布直方图
+    ax.hist(norm_reviews["Fandango_Ratingvalue"], bins=20) # bins=20，分为20组（默认分为10组）
+    # ax.hist(norm_reviews["Fandango_Ratingvalue"], bins=20, range=(4,5)) # range=(4,5)表示分组和显示的x轴范围
+    plt.show()
+
+
+def demo_07():
+    '''
+    绘制箱线图（四分图）
+    :return:
+    '''
+
+    # 加载数据
+    reviews = pd.read_csv("fandango_scores.csv")
+
+    cols = ["RT_user_norm", "Metacritic_user_nom", "IMDB_norm", "Fandango_Ratingvalue"]
+    norm_reviews = reviews[cols]
+    print(norm_reviews.loc[0])
+
+    # fig, ax = plt.subplots()
+    # # 绘制箱线图
+    # ax.boxplot(norm_reviews["RT_user_norm"])
+    # ax.set_xticklabels(["Rotten Tomatoes"])
+    # ax.set_ylim(0,5)
+    #
+    # plt.show()
+
+
+    fig, ax = plt.subplots()
+    # 绘制箱线图
+    ax.boxplot(norm_reviews[cols].values)
+    ax.set_xticklabels(cols, rotation=45)
+    ax.set_ylim(0,5)
+    plt.show()
+
+
 
 
 
@@ -187,4 +250,6 @@ if __name__ == "__main__":
     # demo_02()
     # demo_03()
     # demo_04()
-    demo_05()
+    # demo_05()
+    # demo_06()
+    demo_07()
