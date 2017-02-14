@@ -99,7 +99,92 @@ def demo_03():
     plt.show()
 
 
+def demo_04():
+    '''
+    绘制条形图
+    :return:
+    '''
+
+    # 加载数据
+    reviews = pd.read_csv("fandango_scores.csv")
+
+    cols = ["FILM", "RT_user_norm", "Metacritic_user_nom", "IMDB_norm", "Fandango_Ratingvalue", "Fandango_Stars"]
+    norm_reviews = reviews[cols]
+    print(norm_reviews.loc[0])
+
+    bar_heights = norm_reviews.ix[0, cols[1:]].values # 允许混合使用下标和名称进行选取，第0行，cols[1:]列
+    print(bar_heights)
+
+    bar_positions = np.arange(5) + 0.75 # 5列数据向右偏移0.75个距离，即最左侧偏离原点距离
+    print(bar_positions)
+
+    fig, ax = plt.subplots()
+    ax.bar(bar_positions, bar_heights, 0.5) # bar为绘制条形图，参数分别为x轴数据，y轴数据，数据条宽度
+    # plt.bar(bar_positions, bar_heights, 0.5) # 效果同上
+
+    tick_positions = range(1,6)
+    ax.set_xticks(tick_positions) # 指定x轴刻度显示值
+    ax.set_xticklabels(cols[1:], rotation=45) # 指定x轴刻度标签显示值，并把刻度标签逆时针旋转45度
+
+    ax.set_xlabel("各电影平台")
+    ax.set_ylabel("电影评分")
+    ax.set_title("各个电影平台对某个电影的评分对比")
+    plt.show()
+
+
+    # 水平画条形图
+    fig, ax = plt.subplots()
+    ax.barh(bar_positions, bar_heights, 0.5)  # bar为绘制条形图，参数分别为x轴数据，y轴数据，数据条宽度
+
+    tick_positions = range(1, 6)
+    ax.set_yticks(tick_positions)  # 指定x轴刻度显示值
+    ax.set_yticklabels(cols[1:], rotation=45)  # 指定x轴刻度标签显示值，并把刻度标签逆时针旋转45度
+
+    ax.set_ylabel("各电影平台")
+    ax.set_xlabel("电影评分")
+    ax.set_title("各个电影平台对某个电影的评分对比")
+    plt.show()
+
+
+
+def demo_05():
+    '''
+    绘制散点图
+    :return:
+    '''
+
+    # 加载数据
+    reviews = pd.read_csv("fandango_scores.csv")
+
+    # fig, ax = plt.subplots()
+    # # 绘制散点图
+    # ax.scatter(reviews["Fandango_Ratingvalue"], reviews["RT_user_norm"])
+    # ax.set_xlabel("Fandango")
+    # ax.set_ylabel("Rotten Tomatoes")
+    # plt.show()
+
+
+    # 绘制散点图（翻转x，y坐标对比）
+    fig = plt.figure(figsize=(12,6))
+    ax1 = fig.add_subplot(1,2,1)
+    ax2 = fig.add_subplot(1,2,2)
+
+    # 绘制散点图
+    ax1.scatter(reviews["Fandango_Ratingvalue"], reviews["RT_user_norm"])
+    ax1.set_xlabel("Fandango")
+    ax1.set_ylabel("Rotten Tomatoes")
+    # 绘制散点图
+    ax2.scatter(reviews["RT_user_norm"], reviews["Fandango_Ratingvalue"])
+    ax2.set_xlabel("Rotten Tomatoes")
+    ax2.set_ylabel("Fandango")
+
+    plt.show()
+
+
+
 if __name__ == "__main__":
     # demo_01()
     # demo_02()
-    demo_03()
+    # demo_03()
+    # demo_04()
+    demo_05()
