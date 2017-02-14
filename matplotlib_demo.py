@@ -242,6 +242,57 @@ def demo_07():
     plt.show()
 
 
+def demo_08():
+    '''
+    实际数据例子
+    1970-2011年各个专业女生人数占比
+    :return:
+    '''
+
+    # 加载数据（1970-2011年各个专业女生人数占比）
+    data = pd.read_csv("percent-bachelors-degrees-women-usa.csv")
+    # print(data.head())
+
+
+    # # 1970-2011年生物学男女人数占比变化图(%)
+    # fig, ax = plt.subplots()
+    # ax.plot(data["Year"], data["Biology"], c="blue", label="Women")
+    # ax.plot(data["Year"], 100 - data["Biology"], c="green", label="Men")
+    # # 去掉图表小刻度格
+    # ax.tick_params(bottom="off", top="off", left="off", right="off")
+    # # 去掉图标框
+    # for key,spine in ax.spines.items():
+    #     spine.set_visible(False)
+    # # plt.legend("upper right")
+    # ax.legend(loc="best")
+    # ax.set_title("1970-2011年生物学女生人数占比变化图")
+    # ax.set_ylim(0,100)
+    # plt.show()
+
+    # 1970-2011年生物学/计算机科学/工程学/数理统计专业男女人数占比变化图(%)
+    major_cats = ["Biology", "Computer Science", "Engineering", "Math and Statistics"]
+    fig = plt.figure(figsize=(12,12))
+
+    # 添加四个子图
+    for i in range(4):
+        ax = fig.add_subplot(2,2,i+1)
+        ax.plot(data["Year"], data[major_cats[i]], c="blue", label="Wonmen")
+        ax.plot(data["Year"], 100 - data[major_cats[i]], c="green", label="Men")
+        # 去掉图标框
+        for key,spine in ax.spines.items():
+            spine.set_visible(False)
+        ax.set_xlim(1968,2011)
+        ax.set_ylim(0,100)
+        ax.set_title(major_cats[i])
+        ax.legend(loc="best")
+        # 去掉图表小刻度格
+        ax.tick_params(bottom="off", top="off", left="off", right="off")
+
+    plt.show()
+
+
+
+
 
 
 
@@ -252,4 +303,5 @@ if __name__ == "__main__":
     # demo_04()
     # demo_05()
     # demo_06()
-    demo_07()
+    # demo_07()
+    demo_08()
